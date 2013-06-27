@@ -56,6 +56,12 @@ $(document).ready(function(){
 				});
 				elem.find('.color').click(function(){
 					$(this).parents('.sticker').find('.hue-dial').toggleClass('hide');
+					if($(this).parents('.sticker').find('.hue-dial').hasClass('hide')){
+						$(this).html('Color');
+					}
+					else {
+						$(this).html('Done');
+					}
 				});
 				elem.find('.hue-dial').addClass('hide');
 			});
