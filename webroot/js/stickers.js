@@ -4,15 +4,15 @@ $(document).ready(function(){
 	window.stickers.last_bg_position = {top: 0, left:0};
 	window.stickers.parallax = 1.5;
 	window.stickers.init_sticker = function(elems){
-		console.log(elems);
 		elems.each(function(idx, elem){
 			elem = $(elem);
-			console.log('init for ' + elem.attr('id'));
 			elem.draggable({
 				stack: "#content .sticker"
 				, containment: 'parent'
 			});
 			elem.find('.delete').click(function(){
+				var id = $(this).parents('.sticker').attr('id');
+				window.stickers.db.remove(id);
 				$(this).parents('.sticker').toggle('fold', function(){
 					$(this).remove();
 				});
@@ -24,6 +24,18 @@ $(document).ready(function(){
 				var editor = new Y.EditorBase({
 					content: html,
 					extracss: '* {background: transparent}'
+				});
+				editor.set('id', elem.attr('id'));
+				editor.set('color', elem.css('background-color'));
+				var editorEvt = function(e){
+					var tag = e.frameTarget.get('tagName').toLowerCase();
+					if(e.type === 'keyup'){
+						window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent()});
+					}
+					Y.log('Event: ' + e.type + ' on element (' + tag + ')');
+				}
+				Y.each(Y.Frame.DOM_EVENTS, function(v, k) {
+					editor.on('dom:' + k, editorEvt);
 				});
 				editor.render('#' + elem.attr('id'));
 			});
@@ -37,7 +49,6 @@ $(document).ready(function(){
 		var column = 1;
 		$('.sticker').each(function(idx,elem){
 			column = idx % elems_per_row;
-			console.log('row ' + row + ' / col ' + column);
 			$(elem).offset({ top: 40 + row * 210, left: column * 210 + 10 });
 			if(column+1 == elems_per_row ){
 				row++;
@@ -49,7 +60,6 @@ $(document).ready(function(){
 		var clone = $('.sticker.template').clone();
 		clone.removeClass('template');
 		$('#content').append(clone);
-		console.log($('#content .sticker').length);
 		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
 			return v.toString(16);
@@ -65,7 +75,6 @@ $(document).ready(function(){
 		var clone = $('.sticker.template').clone();
 		clone.removeClass('template');
 		$('#content').append(clone);
-		console.log($('#content .sticker').length);
 		var uuid = data.id;
 		clone.find('section').html(data.content);
 		clone.attr('id', uuid);
@@ -81,9 +90,7 @@ $(document).ready(function(){
 		keyPath: 'id',
 		onStoreReady: function(){
 			var onsuccess = function(data){
-				console.log('Here is what we have in store ('+data.length+' items in total):');
 				data.forEach(function(item){
-					console.log(item);
 					window.stickers.restore(item);
 				});
 			};
