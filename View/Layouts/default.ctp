@@ -33,9 +33,10 @@
 		</div>
 	</div>
 	<article class="sticker template">
-		<section>
-		</section>
+		<div class="content">
+		</div>
 		<footer class="controls">
+			<div class="hue-dial"></div><br />
 			<button class="color">Color</button>
 			<button class="delete">Delete</button>
 		</footer>

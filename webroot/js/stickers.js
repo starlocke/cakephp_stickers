@@ -17,9 +17,9 @@ $(document).ready(function(){
 					$(this).remove();
 				});
 			});
-			var html = elem.find('section').html();
-			elem.find('section').html('');
-			YUI().use('editor', function(Y) {
+			var html = elem.find('.content').html();
+			elem.find('.content').html('');
+			YUI().use('dial', 'slider', 'event-valuechange', 'color', 'editor', function(Y) {
 				//Create the Base Editor
 				var editor = new Y.EditorBase({
 					content: html,
@@ -38,6 +38,26 @@ $(document).ready(function(){
 					editor.on('dom:' + k, editorEvt);
 				});
 				editor.render('#' + elem.attr('id'));
+
+				var hue = new Y.Dial({
+								min: 0,
+								max: 360,
+								stepsPerRevolution: 360,
+								continuous: true,
+								centerButtonDiameter: 0.4,
+								render: '#' + elem.attr('id') + ' .hue-dial'
+				});
+				hue.after('valueChange', function(e) {
+					var h = hue.get('value');
+					var hslString = Y.Color.fromArray([h, 100, 50], Y.Color.TYPES.HSL);
+					elem.css('background-color', hslString);
+					editor.set('color', elem.css('background-color'));
+					window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent()});
+				});
+				elem.find('.color').click(function(){
+					$(this).parents('.sticker').find('.hue-dial').toggleClass('hide');
+				});
+				elem.find('.hue-dial').addClass('hide');
 			});
 		});
 	};
@@ -76,8 +96,9 @@ $(document).ready(function(){
 		clone.removeClass('template');
 		$('#content').append(clone);
 		var uuid = data.id;
-		clone.find('section').html(data.content);
+		clone.find('.content').html(data.content);
 		clone.attr('id', uuid);
+		clone.css('background-color', data.color);
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
 	};

@@ -55,3 +55,22 @@ body > nav {
 	top: 8px;
 	left: 8px;
 }
+
+.hue-dial {
+	background: rgba(0,0,0,0.5);
+	width: 120px;
+	height: 120px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 2px solid;
+	display: inline-block;
+}
+.hide {
+	display: none;
+}
+.yui3-dial-label {
+	display: none;
+}
+.yui3-dial-ring {
+	background: url(/img/colorwheel.png) -25px -25px no-repeat;
+}
