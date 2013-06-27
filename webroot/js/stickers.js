@@ -20,11 +20,13 @@ $(document).ready(function(){
 				});
 			});
 			window.stickers.last_position = current_position;
-			$('body').css({
-				'background-position': (window.stickers.last_bg_position.left + diff_left/window.stickers.parallax) + "px " + (window.stickers.last_bg_position.top + diff_top/window.stickers.parallax) + 'px'
+			var bg_left = (window.stickers.last_bg_position.left + diff_left/window.stickers.parallax);
+			var bg_top = (window.stickers.last_bg_position.top + diff_top/window.stickers.parallax);
+			$('#container').css({
+				'background-position': bg_left + "px " + bg_top + 'px'
 			});
-			window.stickers.last_bg_position.left += diff_left / window.stickers.parallax;
-			window.stickers.last_bg_position.top += diff_top / window.stickers.parallax;
+			window.stickers.last_bg_position.left = bg_left;
+			window.stickers.last_bg_position.top = bg_top;
 		}
 	, stop: function(event){
 		}

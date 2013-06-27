@@ -1,8 +1,8 @@
-body {
+#container {
 	background: url("/img/old_mathematics.png");
 }
 
-#container, #content {
+#content {
 	background: none;
 }
 
