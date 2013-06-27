@@ -116,7 +116,7 @@ $(document).ready(function(){
 		clone.find('.modified').html(window.stickers.now());
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
-		window.stickers.db.put({id: uuid, color: 'yellow', content: '', modified: ts});
+		window.stickers.db.put({id: uuid, color: 'yellow', content: '', modified: window.stickers.now()});
 	});
 	$('#arrange-sticker').click(window.stickers.arrange);
 	$(window).resize(window.stickers.arrange);
