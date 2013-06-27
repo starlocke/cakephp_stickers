@@ -1,4 +1,4 @@
-#container {
+body {
 	background: url("/img/old_mathematics.png");
 }
 
@@ -18,16 +18,30 @@
 	border: 1px dotted;
 }
 
+.sticker .controls {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+}
+
 .template {
 	display: none;
 }
 
-html, body, #container, #content {
+html, body {
 	width: 100%;
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
+	overflow: auto;
+}
+
+#container, #content {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 #desktop {
