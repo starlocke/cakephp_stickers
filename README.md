@@ -31,6 +31,9 @@ To simplify the tasks due the time constraints, the following were taken for gra
 
 - Position does not matter, and is never saved.
 - Ordering of the notes also does not matter, they are returned in whatever order the database likes.
+- Updates are not at all "real time + live", they are simply "updated on page refresh".
+  - Conflicts are expected, and there will likely be failure if A
+    tries to update a note that B deleted.
 
 ### Installing ###
 To get this up and running locally, most of the work is done in the ```/Config/install.sh``` script.  It is assumed that a LAMP stack has already been installed.
