@@ -7,6 +7,31 @@ This is an implementation of the "Mate1 Stickies Problem"
 For a short time, the MySQL-backend-enabled version will be hosted at:
 http://stickers.popculturelab.ca/
 
+### Implementation Notes ###
+
+#### Rich Text ####
+This implementation features a rich text editor that includes at least the following rich formats:
+
+- Bold (ctrl+b / command+b)
+- Italic (ctrl+i / command+i)
+- Underline (ctrl+u / command+u)
+
+#### Responsive Flow ####
+
+The notes can be dragged around, but don't get attached to their location.
+
+To simplify "getting to the information", all notes are automatically flowed when:
+
+- adding a new note
+- resizing the browser window
+
+#### Simplification of "real time updates" ####
+
+To simplify the tasks due the time constraints, the following were taken for granted:
+
+- Position does not matter, and is never saved.
+- Ordering of the notes also does not matter, they are returned in whatever order the database likes.
+
 ### Installing ###
 To get this up and running locally, most of the work is done in the ```/Config/install.sh``` script.  It is assumed that a LAMP stack has already been installed.
 
@@ -46,3 +71,4 @@ Any library can be used on the client or server side to help get the task done k
 The candidate must version his work using Git, as if it was a real enterprise project. Commits should be scoped appropriately (by feature developed, bug fixed, etc.) and contain relevant messages. The end result must be submitted to Mate1 by pushing it in a GitHub repo.
 
 The project should work out of the box or include a setup script if necessary. A concise read me should also be provided to explain how to get the project up and running, as well as to list which features were implemented (especially if you came up with creative ideas that were not explicitly mentioned in the specs).
+
