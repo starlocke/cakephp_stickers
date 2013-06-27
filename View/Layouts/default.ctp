@@ -39,6 +39,7 @@
 			<div class="hue-dial"></div><br />
 			<button class="color">Color</button>
 			<button class="delete">Delete</button>
+			<div class="modified"></div>
 		</footer>
 	</article>
 	<nav>
