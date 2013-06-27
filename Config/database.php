@@ -56,23 +56,23 @@
 class DATABASE_CONFIG {
 
 	public $default = array(
-		'datasource' => 'Database/Mysql',
+		'datasource' => 'Database/Sqlite',
 		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
+		//'host' => 'localhost',
+		//'login' => 'user',
+		//'password' => 'password',
+		'database' => 'cakephp_stickers.sqlite3',
 		'prefix' => '',
 		'encoding' => 'utf8',
 	);
 
 	public $test = array(
-		'datasource' => 'Database/Mysql',
+		'datasource' => 'Database/Sqlite',
 		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
+		//'host' => 'localhost',
+		//'login' => 'user',
+		//'password' => 'password',
+		'database' => 'test_cakephp_stickers.sqlite3',
 		'prefix' => '',
 		'encoding' => 'utf8',
 	);
