@@ -30,9 +30,11 @@ $(document).ready(function(){
 				var editorEvt = function(e){
 					var tag = e.frameTarget.get('tagName').toLowerCase();
 					if(e.type === 'keyup'){
-						window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent()});
+						var ts = window.stickers.now();
+						elem.find('.modified').html(ts);
+						editor.set('modified', ts);
+						window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent(), modified: ts});
 					}
-					Y.log('Event: ' + e.type + ' on element (' + tag + ')');
 				}
 				Y.each(Y.Frame.DOM_EVENTS, function(v, k) {
 					editor.on('dom:' + k, editorEvt);
@@ -52,7 +54,10 @@ $(document).ready(function(){
 					var hslString = Y.Color.fromArray([h, 100, 50], Y.Color.TYPES.HSL);
 					elem.css('background-color', hslString);
 					editor.set('color', elem.css('background-color'));
-					window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent()});
+					var ts = window.stickers.now();
+					elem.find('.modified').html(ts);
+					editor.set('modified', ts);
+					window.stickers.db.put({id: editor.get('id'), color: editor.get('color'), content: editor.getContent(), modified: ts});
 				});
 				elem.find('.color').click(function(){
 					$(this).parents('.sticker').find('.hue-dial').toggleClass('hide');
@@ -81,6 +86,23 @@ $(document).ready(function(){
 			}
 		});
 	};
+	window.stickers.pad = function(number, length) {
+			var str = '' + number;
+			while (str.length < length) {
+				str = '0' + str;
+			}
+			return str;
+	};
+	window.stickers.now = function(){
+		var date = new Date;
+		var ts = date.getFullYear() + '-'
+						+ window.stickers.pad(date.getMonth(),2) + '-'
+						+ window.stickers.pad(date.getDay(),2) + ' '
+						+ window.stickers.pad(date.getHours(),2) + ':'
+						+ window.stickers.pad(date.getMinutes(),2) + ':'
+						+ window.stickers.pad(date.getSeconds(),2);
+		return ts;
+	}
 	window.stickers.arrange();
 	$('#add-sticker').click(function(){
 		var clone = $('.sticker.template').clone();
@@ -91,9 +113,10 @@ $(document).ready(function(){
 			return v.toString(16);
 		});
 		clone.attr('id', uuid);
+		clone.find('.modified').html(window.stickers.now());
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
-		window.stickers.db.put({id: uuid, color: 'yellow', content: ''});
+		window.stickers.db.put({id: uuid, color: 'yellow', content: '', modified: ts});
 	});
 	$('#arrange-sticker').click(window.stickers.arrange);
 	$(window).resize(window.stickers.arrange);
@@ -105,6 +128,7 @@ $(document).ready(function(){
 		clone.find('.content').html(data.content);
 		clone.attr('id', uuid);
 		clone.css('background-color', data.color);
+		clone.find('.modified').html(data.modified);
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
 	};
