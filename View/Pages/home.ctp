@@ -1,29 +1,19 @@
-<article class="sticker sticker-template">
-	<body>
+<article class="sticker">
+	<section>
 		Hello World
-	</body>
+	</section>
 	<footer class="controls">
-		<button>Color</button>
-		<button>Delete</button>
+		<button class="color">Color</button>
+		<button class="delete">Delete</button>
 	</footer>
 </article>
 
-<article class="sticker sticker-template">
-	<body>
+<article class="sticker">
+	<section>
 		Hello World
-	</body>
+	</section>
 	<footer class="controls">
-		<button>Color</button>
-		<button>Delete</button>
-	</footer>
-</article>
-
-<article class="sticker sticker-template">
-	<body>
-		Hello World
-	</body>
-	<footer class="controls">
-		<button>Color</button>
-		<button>Delete</button>
+		<button class="color">Color</button>
+		<button class="delete">Delete</button>
 	</footer>
 </article>

@@ -28,8 +28,16 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 	</div>
+	<article class="sticker template">
+		<section>
+		</section>
+		<footer class="controls">
+			<button class="color">Color</button>
+			<button class="delete">Delete</button>
+		</footer>
+	</article>
 	<nav>
-		<button>Add</button>
+		<button id="add-sticker">Add</button>
 	</nav>
 </body>
 </html>

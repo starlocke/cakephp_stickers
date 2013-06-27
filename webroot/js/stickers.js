@@ -3,6 +3,14 @@ $(document).ready(function(){
 	window.stickers.last_position = {top: 0, left:0}; // of drag helper
 	window.stickers.last_bg_position = {top: 0, left:0};
 	window.stickers.parallax = 1.5;
+	window.stickers.init_sticker = function(elem){
+		elem.draggable({ stack: "#content .sticker" });
+		elem.find('.delete').click(function(){
+			$(this).parents('.sticker').toggle('fold', function(){
+				$(this).remove();
+			});
+		});
+	};
 	$( "#content" ).draggable({
 		helper: function(event){return $("<div id='content-drag-helper'></div>");}
 	, start: function(event){
@@ -31,11 +39,18 @@ $(document).ready(function(){
 	, stop: function(event){
 		}
 	});
-	$( "#content .sticker" ).draggable({ stack: "#content .sticker" });
+	window.stickers.init_sticker($( "#content .sticker" ));
 	window.stickers.arrange = function(){
 		$('.sticker').each(function(idx,elem){
 			$(elem).offset({ top: 40, left: idx * 210 + 10 });
 		});
 	};
 	window.stickers.arrange();
+	$('#add-sticker').click(function(){
+		var clone = $('.sticker.template').clone();
+		clone.removeClass('template');
+		$('#content').append(clone);
+		window.stickers.init_sticker(clone);
+		window.stickers.arrange();
+	});
 });

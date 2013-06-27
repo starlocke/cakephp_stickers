@@ -18,6 +18,10 @@
 	border: 1px dotted;
 }
 
+.template {
+	display: none;
+}
+
 html, body, #container, #content {
 	width: 100%;
 	height: 100%;
