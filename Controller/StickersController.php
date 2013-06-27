@@ -14,7 +14,12 @@ class StickersController extends AppController {
  */
 	public function index() {
 		$this->Sticker->recursive = 0;
-		$this->set('stickers', $this->paginate());
+		if($this->RequestHandler->accepts('json')){
+			$this->set('stickers', $this->Sticker->find('all'));
+		}
+		else {
+			$this->set('stickers', $this->paginate());
+		}
 		$this->set('_serialize', array('stickers'));
 	}
 
