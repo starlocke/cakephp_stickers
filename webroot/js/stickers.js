@@ -29,34 +29,6 @@ $(document).ready(function(){
 			});
 		});
 	};
-	/*
-	$( "#content" ).draggable({
-		helper: function(event){return $("<div id='content-drag-helper'></div>");}
-	, start: function(event){
-			window.stickers.last_position = {top: 0, left:0};
-		}
-	, drag: function(event){
-			var current_position = $('#content-drag-helper').position();
-			var diff_top = current_position.top - window.stickers.last_position.top;
-			var diff_left = current_position.left - window.stickers.last_position.left;
-			$('#content .sticker').each(function(idx, elem){
-				var pos = $(elem).position();
-				$(elem).css({
-					left: (pos.left + diff_left) + "px"
-				, top: (pos.top + diff_top) + 'px'
-				});
-			});
-			window.stickers.last_position = current_position;
-			var bg_left = (window.stickers.last_bg_position.left + diff_left/window.stickers.parallax);
-			var bg_top = (window.stickers.last_bg_position.top + diff_top/window.stickers.parallax);
-			$('body').css({
-				'background-position': bg_left + "px " + bg_top + 'px'
-			});
-			window.stickers.last_bg_position.left = bg_left;
-			window.stickers.last_bg_position.top = bg_top;
-		}
-	});
-	*/
 	window.stickers.init_sticker($( "#content .sticker" ));
 	window.stickers.arrange = function(){
 		var width = $('#content').width();
@@ -85,7 +57,40 @@ $(document).ready(function(){
 		clone.attr('id', uuid);
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
+		window.stickers.db.put({id: uuid, color: 'yellow', content: ''});
 	});
+	$('#arrange-sticker').click(window.stickers.arrange);
 	$(window).resize(window.stickers.arrange);
-
+	window.stickers.restore = function(data){
+		var clone = $('.sticker.template').clone();
+		clone.removeClass('template');
+		$('#content').append(clone);
+		console.log($('#content .sticker').length);
+		var uuid = data.id;
+		clone.find('section').html(data.content);
+		clone.attr('id', uuid);
+		window.stickers.init_sticker(clone);
+		window.stickers.arrange();
+	};
+	window.stickers.store = function(elem){
+		
+	}
+	window.stickers.db = new IDBStore({
+		dbVersion: 1,
+		storeName: 'stickers',
+		keyPath: 'id',
+		onStoreReady: function(){
+			var onsuccess = function(data){
+				console.log('Here is what we have in store ('+data.length+' items in total):');
+				data.forEach(function(item){
+					console.log(item);
+					window.stickers.restore(item);
+				});
+			};
+			var onerror = function(error){
+				console.log('Oh noes, sth went wrong!', error);
+			};
+			window.stickers.db.getAll(onsuccess, onerror);
+		}
+	});
 });
