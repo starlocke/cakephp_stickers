@@ -116,7 +116,7 @@ $(document).ready(function(){
 		clone.find('.modified').html(window.stickers.now());
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
-		window.stickers.db.create({id: uuid, color: 'yellow', content: '', modified: ts});
+		window.stickers.db.create({id: uuid, color: 'yellow', content: '', modified: window.stickers.now()});
 	});
 	$('#arrange-sticker').click(window.stickers.arrange);
 	$(window).resize(window.stickers.arrange);
@@ -155,9 +155,9 @@ $(document).ready(function(){
 		$.post(post_url, post_data);
 	};
 	window.stickers.db.remove = function(id) {
-		var post_url = '/stickers/delete/' + item.id;
+		var post_url = '/stickers/delete/' + id;
 		var post_data = {
-			'Sticker[id]'      : item.id
+			'Sticker[id]'      : id
 		};
 		$.post(post_url, post_data);
 	};
