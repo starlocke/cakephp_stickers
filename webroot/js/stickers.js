@@ -93,7 +93,7 @@ $(document).ready(function(){
 		clone.attr('id', uuid);
 		window.stickers.init_sticker(clone);
 		window.stickers.arrange();
-		window.stickers.db.put({id: uuid, color: 'yellow', content: ''});
+		window.stickers.db.create({id: uuid, color: 'yellow', content: ''});
 	});
 	$('#arrange-sticker').click(window.stickers.arrange);
 	$(window).resize(window.stickers.arrange);
@@ -111,20 +111,38 @@ $(document).ready(function(){
 	window.stickers.store = function(elem){
 		
 	}
-	window.stickers.db = new IDBStore({
-		dbVersion: 1,
-		storeName: 'stickers',
-		keyPath: 'id',
-		onStoreReady: function(){
-			var onsuccess = function(data){
-				data.forEach(function(item){
-					window.stickers.restore(item);
-				});
-			};
-			var onerror = function(error){
-				console.log('Oh noes, sth went wrong!', error);
-			};
-			window.stickers.db.getAll(onsuccess, onerror);
-		}
-	});
+	window.stickers.db = {};
+	window.stickers.db.create = function(item) {
+		var post_url = '/stickers/add/';
+		var post_data = {
+			'Sticker[id]'      : item.id
+		,	'Sticker[color]'   : item.color
+		,	'Sticker[content]' : item.content
+		};
+		$.post(post_url, post_data);
+	};
+	window.stickers.db.put = function(item) {
+		var post_url = '/stickers/edit/' + item.id;
+		var post_data = {
+			'Sticker[id]'      : item.id
+		,	'Sticker[color]'   : item.color
+		,	'Sticker[content]' : item.content
+		};
+		$.post(post_url, post_data);
+	};
+	window.stickers.db.remove = function(id) {
+		var post_url = '/stickers/delete/' + item.id;
+		var post_data = {
+			'Sticker[id]'      : item.id
+		};
+		$.post(post_url, post_data);
+	};
+	window.stickers.db.getAll = function() {
+		$.getJSON('/stickers/index.json', function(data) {
+			$.each(data.stickers, function(key, item) {
+				window.stickers.restore(item.Sticker)
+			});
+		});
+	};
+	window.stickers.db.getAll();
 });
