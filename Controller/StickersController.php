@@ -15,6 +15,7 @@ class StickersController extends AppController {
 	public function index() {
 		$this->Sticker->recursive = 0;
 		$this->set('stickers', $this->paginate());
+		$this->set('_serialize', array('stickers'));
 	}
 
 /**
@@ -30,6 +31,7 @@ class StickersController extends AppController {
 		}
 		$options = array('conditions' => array('Sticker.' . $this->Sticker->primaryKey => $id));
 		$this->set('sticker', $this->Sticker->find('first', $options));
+		$this->set('_serialize', array('sticker'));
 	}
 
 /**
